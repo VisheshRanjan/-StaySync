@@ -34,14 +34,14 @@ router.get("/new",isLogin,(req,res)=>{
 router.post("/new",isLogin, validateSchema, wrapAsync( async (req,res,next)=>{
 
     let newListing = new Listing(req.body.listing);
-    
+    newListing.owner= req.user._id;
     await newListing.save();
             req.flash("success","NEW LISTING CREATED!");
         res.redirect("/listings");
 }));
 router.get("/:_id", wrapAsync(async (req,res)=>{
     let {_id} = req.params;
-    let allList = await Listing.findById(_id).populate("reviews");
+    let allList = await Listing.findById(_id).populate("reviews").populate("owner");
     console.log(allList);
                     req.flash("success","LISTING FOUND!");
     res.render("../views/listings/show.ejs",{allList});

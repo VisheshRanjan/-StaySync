@@ -14,9 +14,13 @@ const listingSchema = new Schema({
             type:String,
             default:"listingimage",
         },
-        url:{
-            type:String,
-            default:"https://unsplash.com/photos/cozy-armchair-coffee-and-cake-in-a-warm-inviting-room-iL9Ucm18HCE",
+        url: {
+            type: String,
+            default: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1000&auto=format&fit=crop&q=80",
+            set: (v) =>
+                v && v.trim()
+                    ? v
+                    : "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1000&auto=format&fit=crop&q=80",
         },
     },
     price:{

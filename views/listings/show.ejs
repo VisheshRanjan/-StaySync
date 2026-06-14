@@ -10,7 +10,8 @@
             <% } %>
             <div class="card-body">
                 <p class="card-text">
-                    <%= allList?.description %> <br>
+        <%= allList.owner[0].username %> <br>
+    <%= allList?.description %> <br>
                     &#8377; <%= allList?.price.toLocaleString("en-IN") %> <br>
                     <%= allList?.location %> <br>
                     <%= allList?.country %>

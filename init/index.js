@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const initData = require("./data.js");
 const Listing = require("../models/listing");
+const { initialize } = require("passport");
 
 main().then((res)=>{
     console.log("Connected to DB");
@@ -14,6 +15,9 @@ async function main(){
 
 const initDB = async ()=>{
     await Listing.deleteMany({});
+    initData.data =initDB.data.map((obj)=>({
+        ...obj,
+        owner:"6a2dab65f2066815902612fa"}));
     await Listing.insertMany(initData.data)
     .then((res)=>{
         console.log(res);

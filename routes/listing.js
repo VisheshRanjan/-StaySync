@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const expressError = require("../utils/expressError.js");
-const {listingSchema,reviewSchema} = require("../schema.js");
+const {listingSchema} = require("../schema.js");
 const Listing = require("../models/listing.js");
 const {isLogin} = require("../middleware.js");
 
@@ -54,13 +54,18 @@ router.get("/:_id/edit",isLogin, wrapAsync(async (req,res)=>{
     res.render("edit.ejs",{user});
 }));
 
-router.put("/:_id/edit",validateSchema, wrapAsync(async(req,res)=>{
+router.put("/:_id/edit",isLogin,validateSchema, wrapAsync(async(req,res)=>{
     let{_id} = req.params;
         const newInfo =req.body.listing;
         console.log(newInfo);
+        const listing =await Listing.findById(_id);
+        if(!listing.owner[0]._id.equals(res.locals.currUser._id)){
+            req.flash("error","Sorry You're not the owner!");
+            return res.redirect("/listings");
+        }
         await Listing.findByIdAndUpdate(_id,newInfo);
                         req.flash("success","LISTING EDITED!");
-    res.redirect("/listings");
+    res.redirect("/");
 
 }));
 

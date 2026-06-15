@@ -5,6 +5,7 @@ const expressError = require("../utils/expressError.js");
 const {listingSchema} = require("../schema.js");
 const Listing = require("../models/listing.js");
 const {isLogin} = require("../middleware.js");
+const {isOwner} = require("../middleware.js");
 
 
 
@@ -48,28 +49,24 @@ router.get("/:_id", wrapAsync(async (req,res)=>{
    
 }));
 
-router.get("/:_id/edit",isLogin, wrapAsync(async (req,res)=>{
+router.get("/:_id/edit",isLogin,isOwner, wrapAsync(async (req,res)=>{
     let{_id} = req.params;
     let user = await Listing.findById(_id);
     res.render("edit.ejs",{user});
 }));
 
-router.put("/:_id/edit",isLogin,validateSchema, wrapAsync(async(req,res)=>{
+router.put("/:_id/edit",isLogin,isOwner,validateSchema, wrapAsync(async(req,res)=>{
     let{_id} = req.params;
         const newInfo =req.body.listing;
         console.log(newInfo);
         const listing =await Listing.findById(_id);
-        if(!listing.owner[0]._id.equals(res.locals.currUser._id)){
-            req.flash("error","Sorry You're not the owner!");
-            return res.redirect("/listings");
-        }
         await Listing.findByIdAndUpdate(_id,newInfo);
                         req.flash("success","LISTING EDITED!");
-    res.redirect("/");
+    res.redirect("/listings");
 
 }));
 
-router.post("/:_id/delete",isLogin, wrapAsync(async (req,res)=>{
+router.post("/:_id/delete",isLogin,isOwner, wrapAsync(async (req,res)=>{
     let{_id} =req.params;
     let delUser = await Listing.findByIdAndDelete(_id);
     

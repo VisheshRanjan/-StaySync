@@ -6,19 +6,11 @@ const {listingSchema} = require("../schema.js");
 const Listing = require("../models/listing.js");
 const {isLogin} = require("../middleware.js");
 const {isOwner} = require("../middleware.js");
+const {validateSchema} = require("../middleware.js");
 
 
 
 
-
-const validateSchema=(req,res,next)=>{
-    let { error } = listingSchema.validate(req.body);
-    if (error) {
-        throw new expressError(400, error.message);
-    } else{
-        next();
-    }
-};
 
 
 router.get("/", wrapAsync(async (req,res)=>{
@@ -57,10 +49,9 @@ router.get("/:_id/edit",isLogin,isOwner, wrapAsync(async (req,res)=>{
 
 router.put("/:_id/edit",isLogin,isOwner,validateSchema, wrapAsync(async(req,res)=>{
     let{_id} = req.params;
-        const newInfo =req.body.listing;
-        console.log(newInfo);
         const listing =await Listing.findById(_id);
-        await Listing.findByIdAndUpdate(_id,newInfo);
+        console.log(listing);
+        await Listing.findByIdAndUpdate(_id,req.body.listing);
                         req.flash("success","LISTING EDITED!");
     res.redirect("/listings");
 

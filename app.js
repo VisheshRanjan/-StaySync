@@ -12,7 +12,7 @@ const ejsMate = require("ejs-mate");
 app.use(express.static(path.join(__dirname, "public")));
 const wrapAsync = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressError.js");
-const {listingSchema,reviewSchema} = require("./schema.js");
+const {listingSchema,reviewSchema,validateSchema} = require("./schema.js");
 const Review = require("./models/review.js");
 const isLogin = require("./middleware.js");
 const isOwner = require("./middleware.js");

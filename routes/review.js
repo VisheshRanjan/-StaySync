@@ -4,8 +4,8 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const expressError = require("../utils/expressError.js");
 const Listing = require("../models/listing.js");
 const Review = require("../models/review.js");
-const {isLogin} = require("../middleware.js");
-const {listingSchema,reviewSchema,validateReview} = require("../schema.js");
+const {isLogin,validateReview,isAuthor} = require("../middleware.js");
+const {listingSchema,reviewSchema} = require("../schema.js");
 
 
 
@@ -24,7 +24,7 @@ router.post("/",validateReview,isLogin,wrapAsync(async (req,res)=>{
 }));
 
 
-router.delete("/:reviewId/delete",isLogin,wrapAsync(async(req,res,next)=>{
+router.delete("/:reviewId/delete",isLogin,isAuthor,wrapAsync(async(req,res,next)=>{
     let{_id,reviewId} = req.params;
     await Listing.findByIdAndUpdate(_id,{$pull:{reviews:reviewId}}).then(result =>{
         console.log("Reference ObjId :",result);

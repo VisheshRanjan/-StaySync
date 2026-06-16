@@ -36,7 +36,7 @@ router.post("/login",saveRedirectUrl, passport.authenticate("local",{failureFlas
         req.flash("success","You're Logged in ..");
 req.session.success = "Welcome to Wanderlust";
 let redirectUrl = res.locals.redirectUrl || res.redirect("/listings");
-    // return res.redirect(redirectUrl);
+return res.redirect(redirectUrl);
     }catch(error){
                 console.log("The prob is :");
 

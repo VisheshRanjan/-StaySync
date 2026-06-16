@@ -37,3 +37,16 @@ module.exports. validateSchema=(req,res,next)=>{
         next();
     }
 };
+
+module.exports.validateReview=(req,res,next)=>{
+    let { error } = reviewSchema.validate(req.body);
+    if (error) {
+        throw new expressError(400, error.message);
+    } else{
+        next();
+    }
+};
+
+// module.exports.isAuthor =(req,res,next)=>{
+    
+// }

@@ -53,6 +53,7 @@
                     <div class="col-6 mb-3">
                         <div class="card h-100">
                             <div class="card-body">
+                             <h5 class="card-title">@<%=review.author.username%></h5>
                                 <h5 class="card-title">Rating: <%= review.rating %> Stars</h5>
                                 <p class="card-text"><%= review.comment %></p>
                                 <form class="mb-3" method="POST" action="/listings/<%= allList._id %>/reviews/<%= review._id %>/delete?_method=DELETE">

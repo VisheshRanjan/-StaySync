@@ -34,7 +34,13 @@ router.post("/new",isLogin, validateSchema, wrapAsync( async (req,res,next)=>{
 }));
 router.get("/:_id", wrapAsync(async (req,res)=>{
     let {_id} = req.params;
-    let allList = await Listing.findById(_id).populate("reviews").populate("owner");
+    let allList = await Listing.findById(_id)
+    .populate({
+        path: "reviews",
+                    populate: {
+                        path: "author"
+        }
+}).populate("owner");
     console.log(allList);
                     req.flash("success","LISTING FOUND!");
     res.render("../views/listings/show.ejs",{allList});

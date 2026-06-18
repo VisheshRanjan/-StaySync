@@ -8,9 +8,10 @@ const {isLogin,validateReview,isAuthor} = require("../middleware.js");
 const {listingSchema,reviewSchema} = require("../schema.js");
 const reviewController = require("../controllers/review.js");
 
-router.post("/",validateReview,isLogin,wrapAsync(reviewController.showReview));
+router.route("/")
+.post(validateReview,isLogin,wrapAsync(reviewController.showReview));
 
-
-router.delete("/:reviewId/delete",isLogin,isAuthor,wrapAsync(reviewController.destroyReview));
+router.route("/:reviewId/delete")
+.delete(isLogin,isAuthor,wrapAsync(reviewController.destroyReview));
 
 module.exports = router;

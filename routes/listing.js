@@ -10,18 +10,43 @@ const {validateSchema} = require("../middleware.js");
 const routeController = require("../controllers/listings.js");
 
 
+router
+    .route("/")
+    .get(wrapAsync(routeController.index));
 
+router
+    .route("/new")
+    .get(isLogin, routeController.renderNewListing)
+    .post(
+        isLogin,
+        validateSchema,
+        wrapAsync(routeController.createNewListing)
+    );
 
-router.get("/", wrapAsync(routeController.index));
+router
+    .route("/:_id")
+    .get(wrapAsync(routeController.allListingShow));
 
-router.get("/new",isLogin,routeController.renderNewListing);
+router
+    .route("/:_id/edit")
+    .get(
+        isLogin,
+        isOwner,
+        wrapAsync(routeController.renderEditListingPage)
+    )
+    .put(
+        isLogin,
+        isOwner,
+        validateSchema,
+        wrapAsync(routeController.editListing)
+    );
 
-router.post("/new",isLogin, validateSchema, wrapAsync(routeController.createNewListing));
-router.get("/:_id", wrapAsync(routeController.allListingShow));
+router
+    .route("/:_id/delete")
+    .post(
+        isLogin,
+        isOwner,
+        wrapAsync(routeController.destroyListing)
+    );
 
-router.get("/:_id/edit",isLogin,isOwner, wrapAsync(routeController.renderEditListingPage));
-router.put("/:_id/edit",isLogin,isOwner,validateSchema, wrapAsync(routeController.editListing));
-
-router.post("/:_id/delete",isLogin,isOwner, wrapAsync(routeController.destroyListing));
-
-module.exports= router;
+module.exports = router;

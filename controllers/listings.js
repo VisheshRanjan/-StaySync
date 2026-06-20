@@ -22,6 +22,12 @@ module.exports.renderNewListing= (req,res)=>{
 module.exports.createNewListing= async (req,res,next)=>{
 
     let newListing = new Listing(req.body.listing);
+    if (req.file) {
+        newListing.image = {
+            url: `/uploads/listings/${req.file.filename}`,
+            filename: req.file.filename,
+        };
+    }
     newListing.owner= req.user._id;
     await newListing.save();
             req.flash("success","NEW LISTING CREATED!");
@@ -59,6 +65,12 @@ module.exports.editListing = async(req,res)=>{
     let{_id} = req.params;
         const listing =await Listing.findById(_id);
         console.log(listing);
+        if (req.file) {
+            req.body.listing.image = {
+                url: `/uploads/listings/${req.file.filename}`,
+                filename: req.file.filename,
+            };
+        }
         await Listing.findByIdAndUpdate(_id,req.body.listing);
                         req.flash("success","LISTING EDITED!");
     res.redirect("/listings");
@@ -75,6 +87,5 @@ module.exports.destroyListing = async (req,res)=>{
                 req.flash("success","LISTING DELETED!");
     res.redirect("/listings");
 }
-
 
 

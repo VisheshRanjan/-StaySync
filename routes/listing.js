@@ -8,6 +8,21 @@ const {isLogin} = require("../middleware.js");
 const {isOwner} = require("../middleware.js");
 const {validateSchema} = require("../middleware.js");
 const routeController = require("../controllers/listings.js");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+const uploadDir = path.join(__dirname, "../public/uploads/listings");
+fs.mkdirSync(uploadDir, { recursive: true });
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        const uniqueName = `${Date.now()}-${file.originalname}`;
+        cb(null, uniqueName);
+    },
+});
+const upload = multer({ storage });
 
 
 router
@@ -19,6 +34,7 @@ router
     .get(isLogin, routeController.renderNewListing)
     .post(
         isLogin,
+        upload.single("listing[image][file]"),
         validateSchema,
         wrapAsync(routeController.createNewListing)
     );
@@ -37,6 +53,7 @@ router
     .put(
         isLogin,
         isOwner,
+        upload.single("listing[image][file]"),
         validateSchema,
         wrapAsync(routeController.editListing)
     );

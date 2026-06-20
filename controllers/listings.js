@@ -24,7 +24,7 @@ module.exports.createNewListing= async (req,res,next)=>{
     let newListing = new Listing(req.body.listing);
     if (req.file) {
         newListing.image = {
-            url: `/uploads/listings/${req.file.filename}`,
+            url: req.file.path,
             filename: req.file.filename,
         };
     }
@@ -67,7 +67,7 @@ module.exports.editListing = async(req,res)=>{
         console.log(listing);
         if (req.file) {
             req.body.listing.image = {
-                url: `/uploads/listings/${req.file.filename}`,
+                url: req.file.path,
                 filename: req.file.filename,
             };
         }

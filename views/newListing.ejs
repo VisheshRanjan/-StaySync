@@ -37,47 +37,29 @@
                     </div>
 
                     <div class="row">
-                    <div class="mb-3 col-md-6">
-                        <label class="form-label">Image URL</label>
-                        <input
-                            type="text"
-                            name="listing[image][url]"
-                            class="form-control"
-                            placeholder="Enter Your URL"
-                        >
-                        <div class="invalid-feedback">Please write Image again!</div>
-                        <div class="valid-feedback"></div>
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label">Image URL</label>
+                            <input
+                                type="text"
+                                name="listing[image][url]"
+                                class="form-control"
+                                placeholder="Enter Your URL"
+                            >
+                            <div class="invalid-feedback">Please write Image again!</div>
+                            <div class="valid-feedback"></div>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label">Upload Image</label>
+                            <input
+                                type="file"
+                                name="listing[image][file]"
+                                class="form-control"
+                                accept="image/*"
+                            >
+                            <div class="invalid-feedback">Please upload an image file!</div>
+                            <div class="valid-feedback"></div>
+                        </div>
                     </div>
-                    <div class="mb-3 col-md-6">
-                        <label class="form-label">Upload Image</label>
-                        <input
-                            type="file"
-                            name="listing[image][file]"
-                            class="form-control"
-                            accept="image/*"
-                        >
-                        <div class="invalid-feedback">Please upload Image again!</div>
-                        <div class="valid-feedback"></div>
-                    </div>
-                    </div>
-<form  action="/listings"
- method="POST"
-enctype="multipart/form-data"
-  novalidate
-class="needs-validation">
-<div class="mb-3">
-                        <label class="form-label" > Upload Image</label>
-                        <input
-                            type="text"
-                            name="listing[image][url]"
-                            class="form-control"
-                            placeholder="Enter Your URL"
-                
-                        >
-                        <div class="invalid-feedback">Please write Image again!</div>
-                        <div class="valid-feedback"></div>
-                    </div>
-</form>
 
 
                     <div class="mb-3">

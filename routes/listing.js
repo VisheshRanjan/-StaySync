@@ -11,20 +11,11 @@ const routeController = require("../controllers/listings.js");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-const uploadDir = path.join(__dirname, "../public/uploads/listings");
-fs.mkdirSync(uploadDir, { recursive: true });
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadDir);
-    },
-    filename: (req, file, cb) => {
-        const uniqueName = `${Date.now()}-${file.originalname}`;
-        cb(null, uniqueName);
-    },
-});
-// const upload = multer({ storage });
+const {storage} = require("../cloudConfig.js");
 
-const upload = multer({ dest: 'uploads/' })
+
+
+const upload = multer({ storage });
 
 
 router
@@ -32,7 +23,7 @@ router
     .get(wrapAsync(routeController.index))
     .post(upload.single('listingImage'),(req,res)=>{
         res.send(req.file);
-    })
+    });
 
 router
     .route("/new")

@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV != "production"){
+    require("dotenv").config();
+};
+require('dotenv').config()
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -16,7 +20,6 @@ const {listingSchema,reviewSchema,validateSchema} = require("./schema.js");
 const Review = require("./models/review.js");
 const isLogin = require("./middleware.js");
 const isOwner = require("./middleware.js");
-
 
 
 const session = require("express-session");

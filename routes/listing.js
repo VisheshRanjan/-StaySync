@@ -22,12 +22,17 @@ const storage = multer.diskStorage({
         cb(null, uniqueName);
     },
 });
-const upload = multer({ storage });
+// const upload = multer({ storage });
+
+const upload = multer({ dest: 'uploads/' })
 
 
 router
     .route("/")
-    .get(wrapAsync(routeController.index));
+    .get(wrapAsync(routeController.index))
+    .post(upload.single('listingImage'),(req,res)=>{
+        res.send(req.file);
+    })
 
 router
     .route("/new")

@@ -1,12 +1,9 @@
-if(process.env.NODE_ENV != "production"){
-    require("dotenv").config();
-};
-require('dotenv').config()
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const Listing = require("./models/listing.js");
-const path = require("path");
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));

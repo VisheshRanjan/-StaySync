@@ -104,3 +104,8 @@ align-items: space-evenly;
 .edit-btn{
     background-color: red;
 }
+
+#map{
+    height: 400px;
+    width: 100%;
+}

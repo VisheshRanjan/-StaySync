@@ -19,8 +19,6 @@ module.exports.renderNewListing= (req,res)=>{
 }
 
 
-
-
 module.exports.createNewListing= async (req,res,next)=>{
 
 let response = await geoCodingClient.forwardGeocode({
@@ -28,7 +26,6 @@ let response = await geoCodingClient.forwardGeocode({
     limit:1
 }).send();
 
-console.log(response.body.features[0].geometry);
 res.send("done!");
     
     let newListing = new Listing(req.body.listing);
@@ -39,6 +36,7 @@ res.send("done!");
         };
     }
     newListing.owner= req.user._id;
+    newListing.geometry = response.body.features[0].geometry;
     await newListing.save();
             req.flash("success","NEW LISTING CREATED!");
         res.redirect("/listings");

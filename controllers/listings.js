@@ -3,6 +3,8 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const  mapToken = process.env.MAP_TOKEN;
 const geoCodingClient = mbxGeocoding({ accessToken: mapToken });
 
+const hasCoordinates = (geometry) =>
+    Array.isArray(geometry?.coordinates) && geometry.coordinates.length === 2;
 
 
 module.exports.index = async (req,res)=>{
@@ -11,11 +13,8 @@ module.exports.index = async (req,res)=>{
 
 }
 
-
-
 module.exports.renderNewListing= (req,res)=>{
-
-    res.render("newListing.ejs",{success:"Saved Here!"});
+  res.render("newListing.ejs",{success:"Saved Here!"});
 }
 
 
@@ -26,7 +25,11 @@ let response = await geoCodingClient.forwardGeocode({
     limit:1
 }).send();
 
-res.send("done!");
+const geometry = response.body.features?.[0]?.geometry;
+if (!geometry) {
+    req.flash("error", "We could not find that location. Please enter a more specific location.");
+    return res.redirect("/listings/new");
+}
     
     let newListing = new Listing(req.body.listing);
     if (req.file) {
@@ -36,7 +39,7 @@ res.send("done!");
         };
     }
     newListing.owner= req.user._id;
-    newListing.geometry = response.body.features[0].geometry;
+    newListing.geometry = geometry;
     await newListing.save();
             req.flash("success","NEW LISTING CREATED!");
         res.redirect("/listings");
@@ -54,9 +57,29 @@ module.exports.allListingShow =async (req,res)=>{
                         path: "author"
         }
 }).populate("owner");
-    console.log(allList);
-                    req.flash("success","LISTING FOUND!");
-    res.render("../views/listings/show.ejs",{allList});
+
+    let mapError = null;
+    if (!hasCoordinates(allList?.geometry)) {
+        try {
+            const response = await geoCodingClient.forwardGeocode({
+                query: [allList?.location, allList?.country].filter(Boolean).join(", "),
+                limit: 1,
+            }).send();
+            const geometry = response.body.features?.[0]?.geometry;
+
+            if (hasCoordinates(geometry)) {
+                allList.geometry = geometry;
+                await allList.save();
+            } else {
+                mapError = "We could not find coordinates for this listing.";
+            }
+        } catch (error) {
+            console.error("Unable to geocode listing for map:", error.message);
+            mapError = "The map location is unavailable right now.";
+        }
+    }
+
+    res.render("../views/listings/show.ejs",{allList, mapError});
    
 }
 
@@ -95,5 +118,3 @@ module.exports.destroyListing = async (req,res)=>{
                 req.flash("success","LISTING DELETED!");
     res.redirect("/listings");
 }
-
-

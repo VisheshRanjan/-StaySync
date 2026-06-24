@@ -1,5 +1,4 @@
 <% layout("/layouts/boilerplate"); %>
-
 <div class="row mt-3">
     <div class="col-8 offset-2">
 
@@ -83,16 +82,20 @@
             <div class="mb-3 mt-3">
                         <h3>Where You'll be :</h3>
               <div id="map"></div>
+              <p id="map-error" class="text-danger mt-2" role="alert" hidden></p>
               
     </div>
 
 </div>
+
+<% const coordinates = allList.geometry?.coordinates ?? null; %>
 <script>
-    mapboxgl.accessToken = '<%= process.env.MAP_TOKEN %>';
-    const map = new mapboxgl.Map({
-        container: 'map', 
-        style: 'mapbox://styles/mapbox/streets-v12',
-        center: [-71.06776, 42.35816], 
-        zoom: 9 
-    });
+  window.mapData = {
+    token: <%- JSON.stringify(process.env.MAP_TOKEN || null) %>,
+    coordinates: <%- JSON.stringify(coordinates) %>,
+    title: <%- JSON.stringify(allList.title) %>,
+    error: <%- JSON.stringify(mapError || null) %>
+  };
 </script>
+
+<script src="/js/map.js"></script>

@@ -21,7 +21,7 @@ if (!token || !Array.isArray(coordinates) || coordinates.length !== 2) {
     zoom: 9,
   });
 
-  new mapboxgl.Marker()
+  new mapboxgl.Marker({color:"red"})
     .setLngLat(coordinates)
     .setPopup(new mapboxgl.Popup({ offset: 25 }).setText(title || "Listing location"))
     .addTo(map);

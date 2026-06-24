@@ -1,13 +1,58 @@
 <% layout("/layouts/boilerplate"); %>
 <%= success %>        
-<h2>All List is Here!!</h2>
-   
+<style>
+    #filter{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .filters{
+        margin-top: 1rem;
+        text-align: center;
+         margin-right: 2rem;
+        opacity: 0.7;
+    }
 
-    <div class="row row-cols-lg-3 row-cols-med-2">
-        
-        
-<% for(list of allList) { %>
-    <a href="/listings/<%= list._id %>" class="listing_link">
+    .filters:hover{
+        opacity:1;
+        cursor:pointer;
+    }
+</style>
+
+<div id="filter" class="mb-3">
+<div class="filters">
+    <i class="fa-solid fa-fire"></i>
+    <p>Trending</p>
+</div>
+<div class="filters">
+<i class="fa-solid fa-bed"></i>
+    <p>Rooms</p>
+        </div>
+        <div class="filters">
+    <i class="fa-solid fa-chess-king"></i>
+        <p>Exotic</p>
+    </div>
+    <div class="filters">
+    <i class="fa-solid fa-person-swimming"></i>
+        <p>Beach</p>
+    </div>
+    <div class="filters">
+    <i class="fa-solid fa-tent"></i>
+        <p>Camping</p>
+    </div>
+    <div class="filters">
+    <i class="fa-solid fa-building-wheat"></i>    <p>Farms</p>
+    </div>
+    <div class="filters">
+    <i class="fa-solid fa-mountain-sun"></i>
+    <p>Mountain</p>
+    </div>
+    <div class="filters">
+    <i class="fa-solid fa-igloo"></i><p>Arctic</p>
+    </div>
+        </div>
+        <div class="row row-cols-lg-3 row-cols-med-2 mb-9">   
+    <% for(list of allList) { %>
+        <a href="/listings/<%= list._id %>" class="listing_link">
 
     <div class="card listing-card" style="width: 20rem;">
     <img src="<%=list.image.url%>" class="card-img-top" style="height: 20rem;" alt="...">
@@ -21,7 +66,4 @@
 </div>
 </a>
 <%  } %>
-
-
-
 </body>

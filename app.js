@@ -90,10 +90,9 @@ async function main(){
 };
 
 
-app.listen(8080,(req,res)=>{
-    console.log("App is Listening");
-        console.log(process.env.MONGO_ATLAS_URL);
-
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+    console.log(`App is Listening on port ${port}`);
 });
 app.use("/listings",listingsRouter);
 

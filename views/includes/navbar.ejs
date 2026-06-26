@@ -1,3 +1,41 @@
+<style>
+  .search-bar{
+    flex: 1;
+    justify-content: center;
+  
+  }
+
+  .search-bar input{
+    width: 50%;
+    margin-left: 30rem;
+        border-radius: 3rem;
+
+    }
+
+
+  .btn-search{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    border-radius: 3rem;
+  }  
+
+  .btn{
+    color: white;
+    background-color: #fe424d;
+    border: none;
+}
+.btn:hover{
+    color: white;
+    background-color: #fe424d;
+    border: none;
+}
+
+</style>
+
+
+
 <nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -7,6 +45,13 @@
       <div class="navbar-nav">
         <a class="nav-link active" aria-current="page" href="/listings"><i class="fa-regular fa-compass"></i></a>
         <a class="nav-link" href="/listings">Explore</a>
+      </div>
+
+            <div class="search-bar ">
+        <form class="d-flex mx-auto">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success btn-search" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+            </form>
       </div>
       <div class="navbar-nav ms-auto">
                 <a class="nav-link" href="/listings/new">AirBnb Your Home</a>

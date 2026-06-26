@@ -27,7 +27,7 @@ const flash = require("connect-flash");
 const store = MongoStore.create({
     mongoUrl : dbUrl,
     crypto:{
-        secret:"mySuperSecret"
+        secret:process.env.SECRET
     },
     touchAfter: 24* 3600,
 });
@@ -37,7 +37,7 @@ store.on("error",(err)=>{
 });
 
 const sessionOption = {
-    secret:"mySuperSecret",
+    secret:process.env.SECRET,
     resave:false,
     saveUninitialized:true,
     cookie:{

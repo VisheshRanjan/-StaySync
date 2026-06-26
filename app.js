@@ -17,10 +17,24 @@ const {listingSchema,reviewSchema,validateSchema} = require("./schema.js");
 const Review = require("./models/review.js");
 const isLogin = require("./middleware.js");
 const isOwner = require("./middleware.js");
-
-
+const dbUrl = process.env.MONGO_ATLAS_URL;
+const { MongoStore } = require("connect-mongo");
 const session = require("express-session");
+const MongoDBStore = require('connect-mongodb-session')(session);
+
 const flash = require("connect-flash");
+
+const store = MongoStore.create({
+    mongoUrl : dbUrl,
+    crypto:{
+        secret:"mySuperSecret"
+    },
+    touchAfter: 24* 3600,
+});
+
+store.on("error",(err)=>{
+    console.log("Error IN MONGO SESSION STORE", err);
+});
 
 const sessionOption = {
     secret:"mySuperSecret",
@@ -71,12 +85,14 @@ main().then((res)=>{
 });
 
 async function main(){
-    await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');
+    await mongoose.connect(dbUrl);
 };
 
 
 app.listen(8080,(req,res)=>{
     console.log("App is Listening");
+        console.log(process.env.MONGO_ATLAS_URL);
+
 });
 app.use("/listings",listingsRouter);
 

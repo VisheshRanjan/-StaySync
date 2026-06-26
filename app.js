@@ -18,9 +18,9 @@ const Review = require("./models/review.js");
 const isLogin = require("./middleware.js");
 const isOwner = require("./middleware.js");
 const dbUrl = process.env.MONGO_ATLAS_URL;
+console.log("SECRET:", process.env.SECRET);
 const { MongoStore } = require("connect-mongo");
 const session = require("express-session");
-const MongoDBStore = require('connect-mongodb-session')(session);
 
 const flash = require("connect-flash");
 
@@ -37,9 +37,10 @@ store.on("error",(err)=>{
 });
 
 const sessionOption = {
+    store,
     secret:process.env.SECRET,
     resave:false,
-    saveUninitialized:true,
+    saveUninitialized:false,
     cookie:{
         expires:Date.now()+7*24*60*60*1000,
         maxAge:7*24*60*60*1000,

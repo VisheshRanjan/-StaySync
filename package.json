@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": "26.3.0"
+  },
   "name": "majorproject-e",
   "version": "1.0.0",
   "description": "",
@@ -25,7 +28,7 @@
     "express-session": "^1.19.0",
     "joi": "^18.2.1",
     "method-override": "^3.0.0",
-    "mongoose": "^9.6.3",
+    "mongoose": "^8.18.1",
     "multer": "^2.2.0",
     "multer-storage-cloudinary": "^4.0.0",
     "passport": "^0.7.0",

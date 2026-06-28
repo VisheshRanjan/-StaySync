@@ -349,4 +349,48 @@ const sampleListings = [
   },
 ];
 
+const categoryMap = {
+  "Cozy Beachfront Cottage": "Beach",
+  "Modern Loft in Downtown": "Iconic Cities",
+  "Mountain Retreat": "Mountains",
+  "Historic Villa in Tuscany": "Luxury",
+  "Secluded Treehouse Getaway": "Camping",
+  "Beachfront Paradise": "Beach",
+  "Rustic Cabin by the Lake": "Camping",
+  "Luxury Penthouse with City Views": "Luxury",
+  "Ski-In/Ski-Out Chalet": "Mountains",
+  "Safari Lodge in the Serengeti": "Trending",
+  "Historic Canal House": "Iconic Cities",
+  "Private Island Retreat": "Luxury",
+  "Charming Cottage in the Cotswolds": "Farms",
+  "Historic Brownstone in Boston": "Iconic Cities",
+  "Beachfront Bungalow in Bali": "Beach",
+  "Mountain View Cabin in Banff": "Mountains",
+  "Art Deco Apartment in Miami": "Iconic Cities",
+  "Tropical Villa in Phuket": "Luxury",
+  "Historic Castle in Scotland": "Castles",
+  "Desert Oasis in Dubai": "Luxury",
+  "Rustic Log Cabin in Montana": "Camping",
+  "Beachfront Villa in Greece": "Beach",
+  "Eco-Friendly Treehouse Retreat": "Camping",
+  "Historic Cottage in Charleston": "Farms",
+  "Modern Apartment in Tokyo": "Iconic Cities",
+  "Lakefront Cabin in New Hampshire": "Camping",
+  "Luxury Villa in the Maldives": "Luxury",
+  "Ski Chalet in Aspen": "Mountains",
+  "Secluded Beach House in Costa Rica": "Beach"
+};
+
+sampleListings.forEach((listing) => {
+  listing.category = categoryMap[listing.title] || "Trending";
+
+  listing.geometry = {
+    type: "Point",
+    coordinates: [0, 0],
+  };
+
+  listing.reviews = [];
+  listing.owner = [];
+});
+
 module.exports = { data: sampleListings };

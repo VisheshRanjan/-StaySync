@@ -6,6 +6,8 @@ const geoCodingClient = mbxGeocoding({ accessToken: mapToken });
 const hasCoordinates = (geometry) =>
     Array.isArray(geometry?.coordinates) && geometry.coordinates.length === 2;
 
+const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 
 module.exports.index = async (req,res)=>{
     let allList = await Listing.find({})
@@ -117,4 +119,27 @@ module.exports.destroyListing = async (req,res)=>{
     console.log(delUser);
                 req.flash("success","LISTING DELETED!");
     res.redirect("/listings");
+}
+
+
+module.exports.searchListing = async (req,res)=>{
+    const { q } = req.query;
+    const searchText = q?.trim();
+
+    if (!searchText) {
+        return res.redirect("/listings");
+    }
+
+    const searchRegex = new RegExp(escapeRegex(searchText), "i");
+    const allList = await Listing.find({
+        $or: [
+            { title: searchRegex },
+            { description: searchRegex },
+            { location: searchRegex },
+            { country: searchRegex },
+            { category: searchRegex },
+        ],
+    });
+
+    res.render("../views/listings/index.ejs", { allList, searchQuery: searchText });
 }

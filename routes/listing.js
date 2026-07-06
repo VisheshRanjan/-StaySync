@@ -19,6 +19,10 @@ const upload = multer({ storage });
 
 
 router
+    .route("/search")
+    .get(wrapAsync(routeController.searchListing));
+
+router
     .route("/")
     .get(wrapAsync(routeController.index))
     .post(upload.single('listingImage'),(req,res)=>{

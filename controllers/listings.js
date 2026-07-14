@@ -143,3 +143,30 @@ module.exports.searchListing = async (req,res)=>{
 
     res.render("../views/listings/index.ejs", { allList, searchQuery: searchText });
 }
+
+module.exports.suggestListings = async (req,res)=>{
+    const { q } = req.query;
+    const searchText = q?.trim();
+
+    if (!searchText) {
+        return res.json([]);
+    }
+
+    const searchRegex = new RegExp(escapeRegex(searchText), "i");
+    const suggestions = await Listing.find({
+        $or: [
+            { title: searchRegex },
+            { location: searchRegex },
+            { country: searchRegex },
+            { category: searchRegex },
+        ],
+    })
+        .select("title location country")
+        .limit(10);
+
+    res.json(suggestions.map((listing) => ({
+        title: listing.title,
+        location: listing.location,
+        country: listing.country,
+    })));
+}

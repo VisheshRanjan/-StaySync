@@ -23,6 +23,10 @@ router
     .get(wrapAsync(routeController.searchListing));
 
 router
+    .route("/suggestions")
+    .get(wrapAsync(routeController.suggestListings));
+
+router
     .route("/")
     .get(wrapAsync(routeController.index))
     .post(upload.single('listingImage'),(req,res)=>{
